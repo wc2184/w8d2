@@ -1,5 +1,5 @@
 let myMethod = function(num) {
-    return (num + 2)
+    return num
 }
 Array.prototype.myEach = function(callback) {
     for (let i = 0; i < this.length; i++) {
@@ -14,9 +14,24 @@ Array.prototype.myMap = function(callback) {
     // this.myEach(element => {
     //     result.push(callback(element))
     // })
-    let func = function(element) {
+    this.myEach(function(element) {
         result.push(callback(element))
-    }
-    this.myEach(func)
+    })
     return result
 }
+
+Array.prototype.myReduce =function(callback, initialValue = this[0]){
+    let total = initialValue
+    if (initialValue){
+    this.myEach(el => {
+        total += callback(el)
+    })
+}
+    else {
+        this.slice(1).myEach(el => {
+            total += callback(el)
+        })
+    }
+    return total
+}
+
